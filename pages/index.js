@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import UsersList from '../components/UsersList';
 export default function Home() {
     const users = [
@@ -9,9 +9,15 @@ export default function Home() {
         { id: 4, name: 'Dave' }
     ];
     const [startingLetter, setStartingLetter] = useState('A');
-      const [num, setNum] = useState(5);
+    const [num, setNum] = useState(5);
+    const memorizedUserList = useMemo(()=>{
+        return <UsersList users={users} startingLetter={startingLetter} />
+    },[startingLetter])
   return (
     <div>
+        <button onClick={()=>{
+            setNum(n=>n+1)
+        }}>inc</button>
         <h1>Welcome to Next.js!</h1>
         <section>
                 <h2>Filter Users</h2>
@@ -23,7 +29,7 @@ export default function Home() {
                         maxLength="1" 
                     />
                 </label> 
-                <UsersList users={users} startingLetter={startingLetter} />
+                {memorizedUserList}
             </section>
     </div>
 );
